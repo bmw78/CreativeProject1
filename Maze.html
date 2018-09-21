@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+	<head>
+		<link rel="stylesheet" href="Portal.css">
+		<script>
+			function initializeMaze() {
+				var canvas = document.getElementById("mazeCanvas");
+				var ctx = canvas.getContext("2d");
+				ctx.scale(1.3,1.25);
+			}
+			function drawMaze() {
+				var canvas = document.getElementById("mazeCanvas");
+				var ctx = canvas.getContext("2d");
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				ctx.beginPath();
+				var topWall = 10;
+				var bottomWall = 110;
+				var leftWall = 20;
+				var rightWall = 210;
+				var entranceTop = 60;
+				var entranceBottom = 70;
+				ctx.moveTo(leftWall,topWall);
+				ctx.lineTo(leftWall,entranceTop);
+				ctx.moveTo(leftWall,entranceBottom);
+				ctx.lineTo(leftWall,bottomWall);
+				ctx.lineTo(rightWall,bottomWall);
+				ctx.lineTo(rightWall,entranceBottom);
+				ctx.moveTo(rightWall,entranceTop);
+				ctx.lineTo(rightWall,topWall);
+				ctx.lineTo(leftWall,topWall);
+
+				ctx.strokeStyle="#66ffff";
+				
+				ctx.stroke();
+				
+				var i;
+				for (i = ((leftWall / 10) + 1); i < ((rightWall / 10)); i++) {
+					var j;
+					for (j = ((topWall / 10) + 1); j < ((bottomWall / 10)); j++) {
+						randomlyDraw(ctx, (i * 10), (j * 10));
+					}
+				}
+				
+				
+				ctx.font = "6px Courier";
+				ctx.strokeText("-->", (leftWall - 12), (entranceTop + 7));
+				ctx.strokeText("-->", (rightWall + 1), (entranceTop + 7));
+				
+				
+			}
+			function randomlyDraw(ctx, horz, vert) 	{
+				// Up Line
+				if (generateLine())
+				{
+					ctx.moveTo(horz,vert);
+					ctx.lineTo(horz,(vert + 10));
+					ctx.stroke();
+				}
+				// Down Line
+				if (generateLine())
+				{
+					ctx.moveTo(horz,vert);
+					ctx.lineTo(horz,(vert - 10));
+					ctx.stroke();
+				}
+				// Left Line
+				if (generateLine())
+				{
+					ctx.moveTo(horz,vert);
+					ctx.lineTo((horz - 10),vert);
+					ctx.stroke();
+				}
+				// Right Line
+				if (generateLine())
+				{
+					ctx.moveTo(horz,vert);
+					ctx.lineTo((horz + 10),vert);
+					ctx.stroke();
+				}
+			}
+			function generateLine() {
+				var rand = Math.random() * 10;
+				if (rand > 2.8) {
+					return false;
+				}
+				else {
+					return true;
+				}
+			}
+		</script>
+	</head>
+
+	
+	<div id="TopOfPage">
+				<h1><u>MAZE GENERATOR</u></h1>
+	</div>
+
+	<body>
+		<div id="Middle">
+
+			<br>
+			<canvas id="mazeCanvas">Canvas not supported</canvas>
+			<script>
+				initializeMaze();
+				drawMaze();
+			
+			</script>
+		
+			
+			<button id="GenerateMazeButton" type="button" onclick="drawMaze()">Generate Maze!</button>
+			
+			<br>
+			<br>
+			<p id="MazeNote"><em>Note</em>: Not all generated mazes are solvable. If you receive an unsolvable maze, generate a new one.<p>
+ 			<br>
+ 			<p id="Footer">Maze Generator, 2018.  Created by Brad Kappen & Brigham Whitaker</p>
+ 		</div>
+	</body>
+</html>
